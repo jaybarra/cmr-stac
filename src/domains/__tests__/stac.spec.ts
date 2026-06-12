@@ -1,10 +1,10 @@
 import chai from "chai";
-const { expect } = chai;
 import { stringify as stringifyQuery } from "qs";
+const { expect } = chai;
 
-import { buildQuery, sortByToSortKeys, browseAssets, s3downloadAssets, CMR_QUERY_MAX } from "../stac";
 import { RelatedUrlType, UrlContentType } from "../../models/GraphQLModels";
 import { SortObject } from "../../models/StacModels";
+import { browseAssets, buildQuery, CMR_QUERY_MAX, s3downloadAssets, sortByToSortKeys } from "../stac";
 
 describe("buildQuery", () => {
   describe("given a intersects query", () => {
@@ -406,11 +406,11 @@ describe("buildQuery", () => {
           });
         });
 
-describe("CMR_QUERY_MAX", () => {
-  it("defaults to 2000 when PAGE_SIZE env var is not set", () => {
-    expect(CMR_QUERY_MAX).to.equal(2000);
-  });
-});
+        describe("CMR_QUERY_MAX", () => {
+          it("defaults to 2000 when PAGE_SIZE env var is not set", () => {
+            expect(CMR_QUERY_MAX).to.equal(2000);
+          });
+        });
       });
     });
   });

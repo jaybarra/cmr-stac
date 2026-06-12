@@ -1,9 +1,9 @@
 import chai from "chai";
 const { expect } = chai;
 
-import { granuleToStac } from "../items";
-import { generateGranules } from "../../utils/testUtils";
 import { RelatedUrlType, UrlContentType } from "../../models/GraphQLModels";
+import { generateGranules } from "../../utils/testUtils";
+import { granuleToStac } from "../items";
 
 const [baseGranule] = generateGranules(1);
 

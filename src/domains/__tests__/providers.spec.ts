@@ -1,5 +1,5 @@
-import * as sinon from "sinon";
 import chai from "chai";
+import * as sinon from "sinon";
 import sinonChai from "sinon-chai";
 
 chai.use(sinonChai);
@@ -7,7 +7,7 @@ chai.use(sinonChai);
 const { expect } = chai;
 
 import axios from "axios";
-import { getProviders, getCloudProviders } from "../providers";
+import { getCloudProviders, getProviders } from "../providers";
 
 const sandbox = sinon.createSandbox();
 

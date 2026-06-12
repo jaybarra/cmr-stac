@@ -1,5 +1,5 @@
-import * as sinon from "sinon";
 import chai from "chai";
+import * as sinon from "sinon";
 import sinonChai from "sinon-chai";
 
 chai.use(sinonChai);
@@ -7,9 +7,9 @@ chai.use(sinonChai);
 const { expect } = chai;
 
 import * as gql from "graphql-request";
-import { getCollections, collectionToStac } from "../collections";
+import { RelatedUrlSubType, RelatedUrlType, UrlContentType } from "../../models/GraphQLModels";
 import { generateCollections } from "../../utils/testUtils";
-import { UrlContentType, RelatedUrlType, RelatedUrlSubType } from "../../models/GraphQLModels";
+import { collectionToStac, getCollections } from "../collections";
 
 const sandbox = sinon.createSandbox();
 
