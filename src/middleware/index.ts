@@ -135,18 +135,19 @@ export const validateProvider = async (req: Request, _res: Response, next: NextF
     : await req.cache?.providers.get(providerId);
 
   if (!provider && isCloudStacReq) {
-    next(
+    return next(
       new ItemNotFound(
         `Provider [${providerId}] not found or does not have any visible cloud hosted collections.`
       )
     );
-    // If it's not the 'ALL' provider and the provider ID cannot be found then throw an error
-  } else if (!provider && providerId != ALL_PROVIDER.toString()) {
-    next(new ItemNotFound(`Provider [${providerId}] not found.`));
-  } else {
-    req.provider = provider;
-    next();
   }
+
+  if (!provider && providerId != ALL_PROVIDER.toString()) {
+    return next(new ItemNotFound(`Provider [${providerId}] not found.`));
+  }
+
+  req.provider = provider;
+  next();
 };
 
 /**

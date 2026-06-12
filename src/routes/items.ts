@@ -129,8 +129,6 @@ export const multiItemHandler = async (req: Request, res: Response) => {
     });
   }
 
-  const { path } = stacContext(req);
-
   const itemsResponse = {
     type: "FeatureCollection",
     description: `Items in the collection ${collection.id}`,
@@ -140,18 +138,7 @@ export const multiItemHandler = async (req: Request, res: Response) => {
     stac_version: STAC_VERSION,
     numberMatched: count,
     numberReturned: items.length,
-    features: items.map((item) => {
-      item.links = [
-        {
-          rel: "self",
-          href: encodeURI(`${path}/${item.id}`),
-          type: "application/geo+json",
-          title: item.id,
-        },
-      ];
-
-      return item;
-    }),
+    features: items.map((item) => addProviderLinks(req, item)),
     links,
     context: {
       returned: items.length,

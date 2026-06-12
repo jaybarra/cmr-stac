@@ -37,7 +37,8 @@ const cmrItemsResponse = {
   items: [
     {
       id: "TEST ITEM",
-    } as STACItem,
+      collection: "TEST_COLL",
+    } as unknown as STACItem,
   ],
   cursor: "TEST_GRAN_CURSOR",
   count: 1,
@@ -76,6 +77,23 @@ describe("GET /PROVIDER/collections/COLLECTION/items", () => {
     it("should return 200", async () => {
       const { statusCode, body } = await request(app).get("/stac/TEST/collections/TEST_COLL/items");
       expect(statusCode, JSON.stringify(body, null, 2)).to.equal(200);
+    });
+
+    it("should include provider, parent, collection, root, and self links on each feature", async () => {
+      const { body } = await request(app).get("/stac/TEST/collections/TEST_COLL/items");
+
+      const feature = body.features[0];
+      expect(feature).to.exist;
+
+      const linkRels = feature.links.map((lnk: Link) => lnk.rel);
+      expect(linkRels).to.include.members(["self", "parent", "collection", "root", "provider"]);
+    });
+
+    it("should include self, root, and parent links on the FeatureCollection", async () => {
+      const { body } = await request(app).get("/stac/TEST/collections/TEST_COLL/items");
+
+      const linkRels = body.links.map((lnk: Link) => lnk.rel);
+      expect(linkRels).to.include.members(["self", "root", "parent"]);
     });
   });
 
@@ -161,7 +179,7 @@ describe("GET /PROVIDER/collections/COLLECTION/items/ITEM", () => {
       });
       sandbox.stub(Items, "getItems").resolves({
         cursor: "cursor",
-        items: [{ id: "TEST_ITEM" } as STACItem],
+        items: [{ id: "TEST_ITEM", collection: "TEST_COLL" } as unknown as STACItem],
         count: 1,
       });
 
@@ -295,7 +313,7 @@ describe("given a cloudstac url for item", () => {
   it("should throw an error if not cloudhosted", async () => {
     sandbox.stub(Items, "getItems").resolves({
       cursor: "cursor",
-      items: [{ id: "TEST_ITEM", properties: { title: "test" } } as STACItem],
+      items: [{ id: "TEST_ITEM", properties: { title: "test" }, collection: "TEST_COLL" } as unknown as STACItem],
       count: 1,
     });
     sandbox.stub(Collections, "getCollections").resolves(cmrCollectionsResponse);
@@ -319,10 +337,11 @@ describe("given a cloudstac url for item", () => {
       items: [
         {
           ...cmrItemsResponse.items[0],
+          collection: "TEST_COLL",
           properties: {
             "storage:schemes": { aws: { type: "aws-s3" } },
           },
-        } as STACItem,
+        } as unknown as STACItem,
       ],
     });
     sandbox.stub(Collections, "getCollections").resolves(cmrCollectionsResponse);

@@ -301,7 +301,7 @@ export const extractAssets = (
   );
 const GRAPHQL_URL = process.env.GRAPHQL_URL ?? "http://localhost:3013";
 
-export const CMR_QUERY_MAX = Number(process.env.PAGE_SIZE);
+export const CMR_QUERY_MAX = Number(process.env.PAGE_SIZE) || 2000;
 
 const pointToQuery = (point: GeoJSONPoint) => point.coordinates.join(",");
 

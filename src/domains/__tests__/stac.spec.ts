@@ -2,7 +2,7 @@ import chai from "chai";
 const { expect } = chai;
 import { stringify as stringifyQuery } from "qs";
 
-import { buildQuery, sortByToSortKeys, browseAssets, s3downloadAssets } from "../stac";
+import { buildQuery, sortByToSortKeys, browseAssets, s3downloadAssets, CMR_QUERY_MAX } from "../stac";
 import { RelatedUrlType, UrlContentType } from "../../models/GraphQLModels";
 import { SortObject } from "../../models/StacModels";
 
@@ -405,6 +405,12 @@ describe("buildQuery", () => {
             ).to.have.deep.property("cloudCover", expected);
           });
         });
+
+describe("CMR_QUERY_MAX", () => {
+  it("defaults to 2000 when PAGE_SIZE env var is not set", () => {
+    expect(CMR_QUERY_MAX).to.equal(2000);
+  });
+});
       });
     });
   });

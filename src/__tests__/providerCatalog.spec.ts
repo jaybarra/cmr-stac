@@ -306,8 +306,8 @@ describe("GET /:provider", () => {
       expect(res.statusCode).to.equal(200);
       // getCollectionIds should have no provider clause in query argument.
       // If this was any provider other than 'ALL', this method would be
-      // called with { provider: 'TEST', cursor: undefined, limit: NaN }
-      expect(getCollectionsSpy).to.have.been.calledWith({ cursor: undefined, limit: NaN });
+      // called with { provider: 'TEST', cursor: undefined, limit: 2000 }
+      expect(getCollectionsSpy).to.have.been.calledWith({ cursor: undefined, limit: 2000 });
     });
     it("should return rel=child links whose href contains a provider rather than 'ALL'", async () => {
       sandbox
@@ -431,11 +431,11 @@ describe("GET /:provider", () => {
       expect(res.statusCode).to.equal(200);
       // getCollectionIds should have no provider clause in query argument.
       // If this was any provider other than 'ALL', this method would be
-      // called with { provider: 'TEST', cursor: undefined, limit: NaN }
+      // called with { provider: 'TEST', cursor: undefined, limit: 2000 }
       expect(getCollectionsSpy).to.have.been.calledWith({
         cloudHosted: true,
         cursor: undefined,
-        limit: NaN,
+        limit: 2000,
       });
     });
     it("should return rel=child links whose href contains a provider rather than 'ALL'", async () => {
